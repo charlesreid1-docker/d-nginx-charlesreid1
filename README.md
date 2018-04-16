@@ -1,11 +1,18 @@
-# pod-charlesreid1-site
+# d-nginx-charlesreid1
 
-This repo contains docker compose file for running
-the charlesreid1.com site.
+This repo contains docker containers
+and a docker compose file for running
+an nginx web server for static content.
 
-The services are:
+This repo is used in [pod-charlesreid1](https://git.charlesreid1.com/docker/pod-charlesreid1.git).
+
+The services are just:
 * nginx
-* Lets Encrypt
+
+If you want to do SSL you can, but you have to 
+run Let's Encrypt outside of the container
+and bind-mount your certificates into the 
+container at `/etc/letsencrypt`.
 
 Pretty simple, right?
 
@@ -20,8 +27,7 @@ The config files must be named `*.conf`.
 No data volumes are used.
 
 * nginx static content is a bind-mounted host directory
-* lets encrypt container generates site certs into bind-mounted host directory
-* nginx certificates come from docker secrets (?)
+* lets encrypt generates site certs, which will be bind-mounted into host directory
 
 ```
   web:
@@ -69,6 +75,7 @@ Answer: No. We clone a local copy of
 the gh-pages branch, and bind-mount 
 that into the container.
 
-Updating the site is as simple as 
-`git pull origin gh-pages`.
+This enables webhooks to update 
+the static site contents
+without disturbing the container.
 
