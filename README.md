@@ -2,7 +2,8 @@
 
 This repo contains docker containers
 and a docker compose file for running
-an nginx web server for static content.
+an nginx web server for static content
+on charlesreid1.com.
 
 This repo is used in [pod-charlesreid1](https://git.charlesreid1.com/docker/pod-charlesreid1.git).
 
