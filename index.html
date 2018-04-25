@@ -11,6 +11,8 @@
       <meta http-equiv="x-ua-compatible" content="ie=edge">
       
       
+        <link rel="canonical" href="https://pages.charlesreid1.com/d-nginx-charlesreid1/">
+      
       
       
         <meta name="lang:clipboard.copy" content="Copy to clipboard">
@@ -85,7 +87,7 @@
   <nav class="md-header-nav md-grid">
     <div class="md-flex">
       <div class="md-flex__cell md-flex__cell--shrink">
-        <a href="." title="d-nginx-charlesreid1" class="md-header-nav__button md-logo">
+        <a href="https://pages.charlesreid1.com/d-nginx-charlesreid1" title="d-nginx-charlesreid1" class="md-header-nav__button md-logo">
           
             <i class="md-icon">input</i>
           
@@ -139,6 +141,24 @@
         
       </div>
       
+        <div class="md-flex__cell md-flex__cell--shrink">
+          <div class="md-header-nav__source">
+            
+
+
+  
+
+
+  <a href="https://git.charlesreid1.com/docker/d-nginx-charlesreid1" title="Go to repository" class="md-source" data-md-source="">
+    
+    <div class="md-source__repository">
+      d-nginx-charlesreid1
+    </div>
+  </a>
+
+          </div>
+        </div>
+      
     </div>
   </nav>
 </header>
@@ -163,6 +183,22 @@
     </span>
     d-nginx-charlesreid1
   </label>
+  
+    <div class="md-nav__source">
+      
+
+
+  
+
+
+  <a href="https://git.charlesreid1.com/docker/d-nginx-charlesreid1" title="Go to repository" class="md-source" data-md-source="">
+    
+    <div class="md-source__repository">
+      d-nginx-charlesreid1
+    </div>
+  </a>
+
+    </div>
   
   <ul class="md-nav__list" data-md-scrollfix>
     
@@ -316,7 +352,7 @@
               
                 
                 
-                <h1 id="d-nginx-charlesreid1">d-nginx-charlesreid1</h1>
+                <h1 id="d-nginx-charlesreid1">d-nginx-charlesreid1<a class="headerlink" href="#d-nginx-charlesreid1" title="Permanent link">&para;</a></h1>
 <p>This repo contains docker containers
 and a docker compose file for running
 an nginx web server for static content
@@ -329,16 +365,16 @@ run Let's Encrypt outside of the container
 and bind-mount your certificates into the 
 container at <code>/etc/letsencrypt</code>.</p>
 <p>Pretty simple, right?</p>
-<h2 id="config-files">Config files</h2>
+<h2 id="config-files">Config files<a class="headerlink" href="#config-files" title="Permanent link">&para;</a></h2>
 <p>All <code>*.conf</code> files in the <code>conf.d/</code> directory will be picked up by nginx.</p>
 <p>The config files must be named <code>*.conf</code>.</p>
-<h2 id="volumes">Volumes</h2>
+<h2 id="volumes">Volumes<a class="headerlink" href="#volumes" title="Permanent link">&para;</a></h2>
 <p>No data volumes are used.</p>
 <ul>
 <li>nginx static content is a bind-mounted host directory</li>
 <li>lets encrypt generates site certs, which will be bind-mounted into host directory</li>
 </ul>
-<pre><code>  web:
+<div class="codehilite"><pre><span></span>  web:
     volumes:
       - ./letsencrypt_certs:/etc/nginx/certs
       - ./letsencrypt_www:/var/www/letsencrypt
@@ -349,24 +385,26 @@ container at <code>/etc/letsencrypt</code>.</p>
     volumes:
       - ./letsencrypt_certs:/etc/letsencrypt
       - ./letsencrypt_www:/var/www/letsencrypt
-</code></pre>
+</pre></div>
 
-<h2 id="certs-and-secrets">Certs and Secrets</h2>
+
+<h2 id="certs-and-secrets">Certs and Secrets<a class="headerlink" href="#certs-and-secrets" title="Permanent link">&para;</a></h2>
 <p>Lets Encrypt should generate certificates at <code>/etc/letsencrypt/live/domain/</code>:</p>
-<pre><code>root@krash:/home/charles/codes/docker/pod-charlesreid1-site# ls -l /etc/letsencrypt/live/charlesreid1.blue/
+<div class="codehilite"><pre><span></span>root@krash:/home/charles/codes/docker/pod-charlesreid1-site# ls -l /etc/letsencrypt/live/charlesreid1.blue/
 total 4
 lrwxrwxrwx 1 root root  41 Mar 27 01:03 cert.pem -&gt; ../../archive/charlesreid1.blue/cert1.pem
 lrwxrwxrwx 1 root root  42 Mar 27 01:03 chain.pem -&gt; ../../archive/charlesreid1.blue/chain1.pem
 lrwxrwxrwx 1 root root  46 Mar 27 01:03 fullchain.pem -&gt; ../../archive/charlesreid1.blue/fullchain1.pem
 lrwxrwxrwx 1 root root  44 Mar 27 01:03 privkey.pem -&gt; ../../archive/charlesreid1.blue/privkey1.pem
 -rw-r--r-- 1 root root 543 Mar 27 01:03 README
-</code></pre>
+</pre></div>
+
 
 <p>These certificate files will be bind-mounted into the nginx container.</p>
-<h2 id="backups">Backups</h2>
+<h2 id="backups">Backups<a class="headerlink" href="#backups" title="Permanent link">&para;</a></h2>
 <p>Site content comes from github.
 Nothing to back up.</p>
-<h2 id="static-content">Static Content</h2>
+<h2 id="static-content">Static Content<a class="headerlink" href="#static-content" title="Permanent link">&para;</a></h2>
 <p>Question: should we bake the site's 
 static content into the container,
 and require rebuild/redeploy when
@@ -397,6 +435,10 @@ without disturbing the container.</p>
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">
       <div class="md-footer-copyright">
+        
+          <div class="md-footer-copyright__highlight">
+            Copyright &copy; 2018 <a href="https://charlesreid1.com">Charles Reid</a>
+          </div>
         
         powered by
         <a href="http://www.mkdocs.org">MkDocs</a>
