@@ -14,6 +14,7 @@
 ####################
 
 
+# default 
 server {
     listen {{ port_ssl_default }} ssl;
     listen [::]:{{ port_ssl_default }} ssl;
@@ -60,6 +61,7 @@ server {
 }
 
 
+# www
 server {
     listen {{ port_ssl_default }} ssl;
     listen [::]:{{ port_ssl_default }} ssl;
@@ -105,8 +107,7 @@ server {
 }
 
 
-####################
-# gitea server
+# gitea 
 server {
     listen {{ port_ssl_gitea}} ssl;
     listen [::]:{{ port_ssl_gitea }} ssl;
@@ -126,8 +127,7 @@ server {
     }
 }
 
-### ####################
-### # files server
+### # files 
 ### server {
 ###     listen {{ port_ssl_files }} ssl;
 ###     listen [::]:{{ port_ssl_files }} ssl;
