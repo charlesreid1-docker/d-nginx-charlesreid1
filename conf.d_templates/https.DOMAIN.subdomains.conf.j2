@@ -1,0 +1,108 @@
+####################
+#
+# {{ server_name_default }}
+# https/{{ port_ssl_default }}
+#
+# charlesreid1.com subdomains
+# reverse-proxied by the server
+# running pod-webhooks.
+# - {{ server_name_pages }}
+# - {{ server_name_hooks }}
+# - {{ server_name_bots }}
+#
+# address of pod-webhooks server:
+# {{ pod_webhooks_server }}
+####################
+
+
+####################
+# pages server
+#
+server {
+    listen {{ port_ssl_pages }} ssl;
+    listen [::]:{{ port_ssl_pages }} ssl;
+    server_name {{ server_name_pages }};
+
+    ssl_certificate /etc/letsencrypt/live/{{ server_name_pages }}/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/{{ server_name_pages }}/privkey.pem;
+    include /etc/letsencrypt/options-ssl-nginx.conf;
+
+    client_max_body_size 100m;
+    port_in_redirect off;
+
+    location / {
+        # https://docs.nginx.com/nginx/admin-guide/web-server/reverse-proxy/
+        proxy_set_header X-Real-IP  $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header Host $host;
+        proxy_pass https://{{ pod_webhooks_server }}:7777/;
+        proxy_redirect https://{{ pod_webhooks_server }}:7777/ http://{{ server_name_pages }}/;
+    }
+}
+
+####################
+# webhooks server
+#
+server {
+    listen {{ port_ssl_hooks }} ssl;
+    listen [::]:{{ port_ssl_hooks }} ssl;
+    server_name {{ server_name_hooks }};
+
+    ssl_certificate /etc/letsencrypt/live/{{ server_name_hooks }}/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/{{ server_name_hooks }}/privkey.pem;
+    include /etc/letsencrypt/options-ssl-nginx.conf;
+
+    client_max_body_size 100m;
+
+    gzip              on;
+    gzip_http_version 1.0;
+    gzip_proxied      any;
+    gzip_min_length   500;
+    gzip_disable      "MSIE [1-6]\.";
+    gzip_types        text/plain text/xml text/css
+                      text/comma-separated-values
+                      text/javascript
+                      application/x-javascript
+                      application/atom+xml;
+
+    location / {
+        # / takes user to static hooks subdomain page
+        proxy_set_header X-Real-IP  $remote_addr;
+        proxy_set_header X-Forwarded-For $remote_addr;
+        proxy_set_header Host $host;
+        proxy_pass https://{{ pod_webhooks_server }}:7778;
+    }
+
+    location /webhook {
+        # /webhook* anything takes user to port 5000, api
+        proxy_set_header   X-Real-IP  $remote_addr;
+        proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header   Host $host;
+        proxy_pass https://{{ pod_webhooks_server }}:5000/webhook;
+    }
+}
+
+####################
+# bots server
+#
+server {
+    listen {{ port_ssl_bots }} ssl;
+    listen [::]:{{ port_ssl_bots }} ssl;
+    server_name {{ server_name_bots }};
+
+    ssl_certificate /etc/letsencrypt/live/{{ server_name_bots }}/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/{{ server_name_bots }}/privkey.pem;
+    include /etc/letsencrypt/options-ssl-nginx.conf;
+
+    client_max_body_size 100m;
+    port_in_redirect off;
+
+    location / {
+        proxy_set_header X-Real-IP  $remote_addr;
+        proxy_set_header X-Forwarded-For $remote_addr;
+        proxy_set_header Host $host;
+        proxy_pass http://{{ pod_webhooks_server }}:7779;
+        proxy_redirect https://{{ pod_webhooks_server }}:7779/ http://{{ server_name_bots }}/;
+    }
+}
+

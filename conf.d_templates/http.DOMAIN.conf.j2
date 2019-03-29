@@ -1,0 +1,72 @@
+####################
+# 
+# {{ server_name_default }}
+# http/{{ port_default }}
+# 
+# basically, just redirects to https
+#
+####################
+
+server {
+    listen {{ port_default }};
+    listen [::]:{{ port_default }};
+    server_name {{ server_name_default }};
+    location / {
+        return 301 https://{{ server_name_default }}$request_uri;
+    }
+}
+
+server {
+    listen {{ port_default }};
+    listen [::]:{{ port_default }};
+    server_name www.{{ server_name_default }};
+    location / {
+        return 301 https://www.{{ server_name_default }}$request_uri;
+    }
+}
+
+server {
+    listen {{ port_gitea }};
+    listen [::]:{{ port_gitea }};
+    server_name {{ server_name_gitea }};
+    location / {
+        return 301 https://{{ server_name_gitea }}$request_uri;
+    }
+}
+
+server {
+    listen {{ port_pages }};
+    listen [::]:{{ port_pages }};
+    server_name {{ server_name_pages }};
+    location / {
+        return 301 https://{{ server_name_pages }}$request_uri;
+    }
+}
+
+server {
+    listen {{ port_hooks }};
+    listen [::]:{{ port_hooks }};
+    server_name {{ server_name_hooks }};
+    location / {
+        return 301 https://{{ server_name_hooks }}$request_uri;
+    }
+}
+
+server {
+    listen {{ port_bots }};
+    listen [::]:{{ port_bots }};
+    server_name {{ server_name_bots }};
+    location / {
+        return 301 https://{{ server_name_bots }}$request_uri;
+    }
+}
+
+### server {
+###     listen {{ port_files }};
+###     listen [::]:{{ port_files }};
+###     server_name {{ server_name_files }};
+###     location / {
+###         return 301 https://{{ server_name_files }}$request_uri;
+###     }
+### }
+

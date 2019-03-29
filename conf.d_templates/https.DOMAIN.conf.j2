@@ -1,0 +1,154 @@
+####################
+#
+# {{ server_name_default }}
+# https/{{ port_ssl_default }}
+# 
+# {{ server_name_default }} and www.{{ server_name_default }}
+# should handle the following cases:
+# - w/ and wiki/ should reverse proxy story_mw
+# - phpMyAdmin/ should reverse proxy stormy_myadmin
+#
+# {{ server_name_gitea }} should handle:
+# - all requests should reverse proxy stormy_gitea
+#
+####################
+
+
+####################
+# {{ server_name_default }}
+server {
+    listen {{ port_ssl_default }} ssl;
+    listen [::]:{{ port_ssl_default }} ssl;
+    server_name {{ server_name_default }} default_server;
+
+    ssl_certificate /etc/letsencrypt/live/{{ server_name_default }}/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/{{ server_name_default }}/privkey.pem;
+    include /etc/letsencrypt/options-ssl-nginx.conf;
+
+    client_max_body_size 100m;
+
+    location / {
+        try_files $uri $uri/ =404;
+        root /www/{{ server_name_default }}/htdocs;
+        index index.html;
+    }
+
+    location /wiki/ {
+        proxy_set_header X-Real-IP  $remote_addr;
+        proxy_set_header X-Forwarded-For $remote_addr;
+        proxy_set_header Host $host;
+        proxy_pass http://stormy_mw:8989/wiki/;
+    }
+
+    location /w/ {
+        proxy_set_header X-Real-IP  $remote_addr;
+        proxy_set_header X-Forwarded-For $remote_addr;
+        proxy_set_header Host $host;
+        proxy_pass http://stormy_mw:8989/w/;
+    }
+
+    #location /phpMyAdmin/ {
+    #    proxy_set_header X-Real-IP  $remote_addr;
+    #    proxy_set_header X-Forwarded-For $remote_addr;
+    #    proxy_set_header Host $host;
+    #    proxy_pass http://stormy_myadmin:80/;
+    #}
+
+    # ~ means case-sensitive regex match, rather than string literal
+    # (ignores .git, .gitignore, etc.)
+    location ~ /\.git {
+        deny all;
+    }
+}
+
+
+####################
+# www.{{ server_name_default }}
+#
+# same as above but with www prefix
+server {
+    listen {{ port_ssl_default }} ssl;
+    listen [::]:{{ port_ssl_default }} ssl;
+    server_name www.{{ server_name_default }};
+
+    ssl_certificate /etc/letsencrypt/live/www.{{ server_name_default }}/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/www.{{ server_name_default }}/privkey.pem;
+    include /etc/letsencrypt/options-ssl-nginx.conf;
+
+    client_max_body_size 100m;
+
+    root /www/{{ server_name_default }}/htdocs;
+
+    location / {
+        try_files $uri $uri/ =404;
+        index index.html;
+    }
+
+    location /wiki/ {
+        proxy_set_header X-Real-IP  $remote_addr;
+        proxy_set_header X-Forwarded-For $remote_addr;
+        proxy_set_header Host $host;
+        proxy_pass http://stormy_mw:8989/wiki/;
+    }
+
+    location /w/ {
+        proxy_set_header X-Real-IP  $remote_addr;
+        proxy_set_header X-Forwarded-For $remote_addr;
+        proxy_set_header Host $host;
+        proxy_pass http://stormy_mw:8989/w/;
+    }
+
+    #location /phpMyAdmin/ {
+    #    proxy_set_header X-Real-IP  $remote_addr;
+    #    proxy_set_header X-Forwarded-For $remote_addr;
+    #    proxy_set_header Host $host;
+    #    proxy_pass http://stormy_myadmin:80/;
+    #}
+
+    location ~ /\.git {
+        deny all;
+    }
+}
+
+
+####################
+# gitea server
+server {
+    listen {{ port_ssl_gitea}} ssl;
+    listen [::]:{{ port_ssl_gitea }} ssl;
+    server_name {{ server_name_gitea }};
+
+    ssl_certificate /etc/letsencrypt/live/{{ server_name_gitea }}/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/{{ server_name_gitea }}/privkey.pem;
+    include /etc/letsencrypt/options-ssl-nginx.conf;
+
+    client_max_body_size 100m;
+
+    location / {
+        proxy_set_header X-Real-IP  $remote_addr;
+        proxy_set_header X-Forwarded-For $remote_addr;
+        proxy_set_header Host $host;
+        proxy_pass http://stormy_gitea:3000/;
+    }
+}
+
+### ####################
+### # files server
+### server {
+###     listen {{ port_ssl_files }} ssl;
+###     listen [::]:{{ port_ssl_files }} ssl;
+###     server_name {{ server_name_files }};
+### 
+###     ssl_certificate /etc/letsencrypt/live/{{ server_name_files }}/fullchain.pem;
+###     ssl_certificate_key /etc/letsencrypt/live/{{ server_name_files }}/privkey.pem;
+###     include /etc/letsencrypt/options-ssl-nginx.conf;
+### 
+###     client_max_body_size 100m;
+### 
+###     location / {
+###         proxy_set_header X-Real-IP  $remote_addr;
+###         proxy_set_header X-Forwarded-For $remote_addr;
+###         proxy_set_header Host $host;
+###         proxy_pass http://stormy_files:8081/;
+###     }
+### }
