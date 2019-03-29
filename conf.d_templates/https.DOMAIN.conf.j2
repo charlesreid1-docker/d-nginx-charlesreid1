@@ -14,8 +14,6 @@
 ####################
 
 
-####################
-# {{ server_name_default }}
 server {
     listen {{ port_ssl_default }} ssl;
     listen [::]:{{ port_ssl_default }} ssl;
@@ -62,10 +60,6 @@ server {
 }
 
 
-####################
-# www.{{ server_name_default }}
-#
-# same as above but with www prefix
 server {
     listen {{ port_ssl_default }} ssl;
     listen [::]:{{ port_ssl_default }} ssl;

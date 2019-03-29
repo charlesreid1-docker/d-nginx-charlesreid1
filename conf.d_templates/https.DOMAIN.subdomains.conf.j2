@@ -15,9 +15,7 @@
 ####################
 
 
-####################
-# pages server
-#
+# pages 
 server {
     listen {{ port_ssl_pages }} ssl;
     listen [::]:{{ port_ssl_pages }} ssl;
@@ -40,9 +38,7 @@ server {
     }
 }
 
-####################
-# webhooks server
-#
+# webhooks 
 server {
     listen {{ port_ssl_hooks }} ssl;
     listen [::]:{{ port_ssl_hooks }} ssl;
@@ -82,9 +78,7 @@ server {
     }
 }
 
-####################
-# bots server
-#
+# bots
 server {
     listen {{ port_ssl_bots }} ssl;
     listen [::]:{{ port_ssl_bots }} ssl;
