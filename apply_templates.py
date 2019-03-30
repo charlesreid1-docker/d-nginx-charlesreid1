@@ -23,7 +23,7 @@ docker pod, nginx, and realted infrastructure.
 TEMPLATEDIR = 'conf.d_templates'
 
 # Where rendered templates will go
-OUTDIR = 'conf.d'
+OUTDIR = 'conf.d_examples'
 
 # Should existing files be overwritten
 OVERWRITE = True
