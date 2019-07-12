@@ -1,5 +1,6 @@
 import glob
 import os
+import subprocess
 
 """
 Clean d-nginx-charlesreid1 conf.d directory
