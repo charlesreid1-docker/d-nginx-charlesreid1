@@ -2,6 +2,4 @@ site/
 letsencrypt/
 letsencrypt_certs/
 nginx.conf.default
-conf.d/http.charlesreid1.red.conf
-conf.d/https.charlesreid1.red.conf
-conf.d/https.charlesreid1.red.subdomains.conf
+conf.d/
