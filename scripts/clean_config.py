@@ -7,8 +7,7 @@ Clean d-nginx-charlesreid1 conf.d directory
 
 
 This script cleans out the conf.d directory
-in the d-nginx-charlesreid1 submodule of this
-repository. 
+in the d-nginx-charlesreid1 repo.
 
 This script should be run before you generate a new set
 of config files from the nginx config file templates in
