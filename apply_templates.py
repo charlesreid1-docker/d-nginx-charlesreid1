@@ -32,11 +32,6 @@ OVERWRITE = True
 # Template variables
 TV = {
         'server_name_default':  'charlesreid1.com',
-        'server_name_gitea':    'git.charlesreid1.com',
-        'server_name_files':    'files.charlesreid1.com',
-        'server_name_pages':    'pages.charlesreid1.com',
-        'server_name_hooks':    'hooks.charlesreid1.com',
-        'server_name_bots':     'bots.charlesreid1.com',
 
         'pod_webhooks_server':  'localhost',
 
