@@ -111,10 +111,10 @@ server {
 server {
     listen {{ port_ssl_gitea}} ssl;
     listen [::]:{{ port_ssl_gitea }} ssl;
-    server_name {{ server_name_gitea }};
+    server_name git.{{ server_name_default }};
 
-    ssl_certificate /etc/letsencrypt/live/{{ server_name_gitea }}/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/{{ server_name_gitea }}/privkey.pem;
+    ssl_certificate /etc/letsencrypt/live/git.{{ server_name_default }}/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/git.{{ server_name_default }}/privkey.pem;
     include /etc/letsencrypt/options-ssl-nginx.conf;
 
     client_max_body_size 100m;
@@ -131,10 +131,10 @@ server {
 ### server {
 ###     listen {{ port_ssl_files }} ssl;
 ###     listen [::]:{{ port_ssl_files }} ssl;
-###     server_name {{ server_name_files }};
+###     server_name files.{{ server_name_default }};
 ### 
-###     ssl_certificate /etc/letsencrypt/live/{{ server_name_files }}/fullchain.pem;
-###     ssl_certificate_key /etc/letsencrypt/live/{{ server_name_files }}/privkey.pem;
+###     ssl_certificate /etc/letsencrypt/live/files.{{ server_name_default }}/fullchain.pem;
+###     ssl_certificate_key /etc/letsencrypt/live/files.{{ server_name_default }}/privkey.pem;
 ###     include /etc/letsencrypt/options-ssl-nginx.conf;
 ### 
 ###     client_max_body_size 100m;
