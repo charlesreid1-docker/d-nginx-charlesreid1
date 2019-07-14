@@ -32,8 +32,8 @@ server {
         proxy_set_header X-Real-IP  $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         proxy_set_header Host $host;
-        proxy_pass http://{{ pod_webhooks_server }}:7777/;
-        proxy_redirect http://{{ pod_webhooks_server }}:7777/ http://pages.{{ server_name_default }}/;
+        proxy_pass http://{{ nginx_subdomains_ip }}:7777/;
+        proxy_redirect http://{{ nginx_subdomains_ip }}:7777/ http://pages.{{ server_name_default }}/;
     }
 }
 
@@ -65,7 +65,7 @@ server {
         proxy_set_header X-Real-IP  $remote_addr;
         proxy_set_header X-Forwarded-For $remote_addr;
         proxy_set_header Host $host;
-        proxy_pass http://{{ pod_webhooks_server }}:7778;
+        proxy_pass http://{{ nginx_subdomains_ip }}:7778;
     }
 
     location /webhook {
@@ -73,7 +73,7 @@ server {
         proxy_set_header   X-Real-IP  $remote_addr;
         proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;
         proxy_set_header   Host $host;
-        proxy_pass http://{{ pod_webhooks_server }}:5000/webhook;
+        proxy_pass http://{{ nginx_subdomains_ip }}:5000/webhook;
     }
 }
 
@@ -94,8 +94,8 @@ server {
         proxy_set_header X-Real-IP  $remote_addr;
         proxy_set_header X-Forwarded-For $remote_addr;
         proxy_set_header Host $host;
-        proxy_pass http://{{ pod_webhooks_server }}:7779;
-        proxy_redirect http://{{ pod_webhooks_server }}:7779/ http://bots.{{ server_name_default }}/;
+        proxy_pass http://{{ nginx_subdomains_ip }}:7779;
+        proxy_redirect http://{{ nginx_subdomains_ip }}:7779/ http://bots.{{ server_name_default }}/;
     }
 }
 
