@@ -33,7 +33,8 @@ OVERWRITE = True
 TV = {
         'server_name_default':  'charlesreid1.com',
 
-        'pod_webhooks_server':  'localhost',
+        # CHANGE THIS, OR THIS SCRIPT WILL NOT WORK
+        'nginx_subdomains_ip':  'localhost',
 
         'port_default':         '80',
         'port_gitea':           '80',
