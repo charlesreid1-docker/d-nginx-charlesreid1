@@ -14,88 +14,87 @@
 ####################
 
 
-# pages 
-server {
-    listen {{ port_ssl_pages }} ssl;
-    listen [::]:{{ port_ssl_pages }} ssl;
-    server_name pages.{{ server_name_default }};
-
-    ssl_certificate /etc/letsencrypt/live/pages.{{ server_name_default }}/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/pages.{{ server_name_default }}/privkey.pem;
-    include /etc/letsencrypt/options-ssl-nginx.conf;
-
-    client_max_body_size 100m;
-    port_in_redirect off;
-
-    location / {
-        # https://docs.nginx.com/nginx/admin-guide/web-server/reverse-proxy/
-        proxy_set_header X-Real-IP  $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header Host $host;
-        proxy_pass http://{{ nginx_subdomains_ip }}:7777/;
-        proxy_redirect http://{{ nginx_subdomains_ip }}:7777/ http://pages.{{ server_name_default }}/;
-    }
-}
-
-# webhooks 
-server {
-    listen {{ port_ssl_hooks }} ssl;
-    listen [::]:{{ port_ssl_hooks }} ssl;
-    server_name hooks.{{ server_name_default }};
-
-    ssl_certificate /etc/letsencrypt/live/hooks.{{ server_name_default }}/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/hooks.{{ server_name_default }}/privkey.pem;
-    include /etc/letsencrypt/options-ssl-nginx.conf;
-
-    client_max_body_size 100m;
-
-    gzip              on;
-    gzip_http_version 1.0;
-    gzip_proxied      any;
-    gzip_min_length   500;
-    gzip_disable      "MSIE [1-6]\.";
-    gzip_types        text/plain text/xml text/css
-                      text/comma-separated-values
-                      text/javascript
-                      application/x-javascript
-                      application/atom+xml;
-
-    location / {
-        # / takes user to static hooks subdomain page
-        proxy_set_header X-Real-IP  $remote_addr;
-        proxy_set_header X-Forwarded-For $remote_addr;
-        proxy_set_header Host $host;
-        proxy_pass http://{{ nginx_subdomains_ip }}:7778;
-    }
-
-    location /webhook {
-        # /webhook* anything takes user to port 5000, api
-        proxy_set_header   X-Real-IP  $remote_addr;
-        proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header   Host $host;
-        proxy_pass http://{{ nginx_subdomains_ip }}:5000/webhook;
-    }
-}
-
-# bots
-server {
-    listen {{ port_ssl_bots }} ssl;
-    listen [::]:{{ port_ssl_bots }} ssl;
-    server_name bots.{{ server_name_default }};
-
-    ssl_certificate /etc/letsencrypt/live/bots.{{ server_name_default }}/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/bots.{{ server_name_default }}/privkey.pem;
-    include /etc/letsencrypt/options-ssl-nginx.conf;
-
-    client_max_body_size 100m;
-    port_in_redirect off;
-
-    location / {
-        proxy_set_header X-Real-IP  $remote_addr;
-        proxy_set_header X-Forwarded-For $remote_addr;
-        proxy_set_header Host $host;
-        proxy_pass http://{{ nginx_subdomains_ip }}:7779;
-        proxy_redirect http://{{ nginx_subdomains_ip }}:7779/ http://bots.{{ server_name_default }}/;
-    }
-}
-
+## pages 
+#server {
+#    listen {{ port_ssl_pages }} ssl;
+#    listen [::]:{{ port_ssl_pages }} ssl;
+#    server_name pages.{{ server_name_default }};
+#
+#    ssl_certificate /etc/letsencrypt/live/pages.{{ server_name_default }}/fullchain.pem;
+#    ssl_certificate_key /etc/letsencrypt/live/pages.{{ server_name_default }}/privkey.pem;
+#    include /etc/letsencrypt/options-ssl-nginx.conf;
+#
+#    client_max_body_size 100m;
+#    port_in_redirect off;
+#
+#    location / {
+#        # https://docs.nginx.com/nginx/admin-guide/web-server/reverse-proxy/
+#        proxy_set_header X-Real-IP  $remote_addr;
+#        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+#        proxy_set_header Host $host;
+#        proxy_pass http://{{ nginx_subdomains_ip }}:7777/;
+#        proxy_redirect http://{{ nginx_subdomains_ip }}:7777/ http://pages.{{ server_name_default }}/;
+#    }
+#}
+#
+## webhooks 
+#server {
+#    listen {{ port_ssl_hooks }} ssl;
+#    listen [::]:{{ port_ssl_hooks }} ssl;
+#    server_name hooks.{{ server_name_default }};
+#
+#    ssl_certificate /etc/letsencrypt/live/hooks.{{ server_name_default }}/fullchain.pem;
+#    ssl_certificate_key /etc/letsencrypt/live/hooks.{{ server_name_default }}/privkey.pem;
+#    include /etc/letsencrypt/options-ssl-nginx.conf;
+#
+#    client_max_body_size 100m;
+#
+#    gzip              on;
+#    gzip_http_version 1.0;
+#    gzip_proxied      any;
+#    gzip_min_length   500;
+#    gzip_disable      "MSIE [1-6]\.";
+#    gzip_types        text/plain text/xml text/css
+#                      text/comma-separated-values
+#                      text/javascript
+#                      application/x-javascript
+#                      application/atom+xml;
+#
+#    location / {
+#        # / takes user to static hooks subdomain page
+#        proxy_set_header X-Real-IP  $remote_addr;
+#        proxy_set_header X-Forwarded-For $remote_addr;
+#        proxy_set_header Host $host;
+#        proxy_pass http://{{ nginx_subdomains_ip }}:7778;
+#    }
+#
+#    location /webhook {
+#        # /webhook* anything takes user to port 5000, api
+#        proxy_set_header   X-Real-IP  $remote_addr;
+#        proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;
+#        proxy_set_header   Host $host;
+#        proxy_pass http://{{ nginx_subdomains_ip }}:5000/webhook;
+#    }
+#}
+#
+## bots
+#server {
+#    listen {{ port_ssl_bots }} ssl;
+#    listen [::]:{{ port_ssl_bots }} ssl;
+#    server_name bots.{{ server_name_default }};
+#
+#    ssl_certificate /etc/letsencrypt/live/bots.{{ server_name_default }}/fullchain.pem;
+#    ssl_certificate_key /etc/letsencrypt/live/bots.{{ server_name_default }}/privkey.pem;
+#    include /etc/letsencrypt/options-ssl-nginx.conf;
+#
+#    client_max_body_size 100m;
+#    port_in_redirect off;
+#
+#    location / {
+#        proxy_set_header X-Real-IP  $remote_addr;
+#        proxy_set_header X-Forwarded-For $remote_addr;
+#        proxy_set_header Host $host;
+#        proxy_pass http://{{ nginx_subdomains_ip }}:7779;
+#        proxy_redirect http://{{ nginx_subdomains_ip }}:7779/ http://bots.{{ server_name_default }}/;
+#    }
+#}
