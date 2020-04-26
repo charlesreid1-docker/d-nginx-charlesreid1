@@ -6,27 +6,3 @@
 # charlesreid1.com subdomains
 # reverse-proxied by the server
 ####################
-
-
-# # pages 
-# server {
-#     listen {{ port_ssl_pages }} ssl;
-#     listen [::]:{{ port_ssl_pages }} ssl;
-#     server_name pages.{{ server_name_default }};
-# 
-#     ssl_certificate /etc/letsencrypt/live/pages.{{ server_name_default }}/fullchain.pem;
-#     ssl_certificate_key /etc/letsencrypt/live/pages.{{ server_name_default }}/privkey.pem;
-#     include /etc/letsencrypt/options-ssl-nginx.conf;
-# 
-#     client_max_body_size 100m;
-#     port_in_redirect off;
-# 
-#     location / {
-#         # https://docs.nginx.com/nginx/admin-guide/web-server/reverse-proxy/
-#         proxy_set_header X-Real-IP  $remote_addr;
-#         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-#         proxy_set_header Host $host;
-#         proxy_pass http://{{ nginx_subdomains_ip }}:7777/;
-#         proxy_redirect http://{{ nginx_subdomains_ip }}:7777/ http://pages.{{ server_name_default }}/;
-#     }
-# }
