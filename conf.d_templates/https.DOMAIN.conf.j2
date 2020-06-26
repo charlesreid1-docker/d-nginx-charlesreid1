@@ -20,8 +20,8 @@ server {
     ssl_certificate /etc/letsencrypt/live/{{ server_name_default }}/fullchain.pem;
     ssl_certificate_key /etc/letsencrypt/live/{{ server_name_default }}/privkey.pem;
     include /etc/letsencrypt/options-ssl-nginx.conf;
-
-    client_max_body_size 100m;
+    include /etc/nginx/conf.d/secheaders.conf;
+    include /etc/nginx/conf.d/csp.conf;
 
     location / {
         try_files $uri $uri/ =404;
@@ -60,8 +60,8 @@ server {
     ssl_certificate /etc/letsencrypt/live/www.{{ server_name_default }}/fullchain.pem;
     ssl_certificate_key /etc/letsencrypt/live/www.{{ server_name_default }}/privkey.pem;
     include /etc/letsencrypt/options-ssl-nginx.conf;
-
-    client_max_body_size 100m;
+    include /etc/nginx/conf.d/secheaders.conf;
+    include /etc/nginx/conf.d/csp.conf;
 
     root /www/{{ server_name_default }}/htdocs;
 
@@ -99,8 +99,8 @@ server {
     ssl_certificate /etc/letsencrypt/live/git.{{ server_name_default }}/fullchain.pem;
     ssl_certificate_key /etc/letsencrypt/live/git.{{ server_name_default }}/privkey.pem;
     include /etc/letsencrypt/options-ssl-nginx.conf;
-
-    client_max_body_size 100m;
+    include /etc/nginx/conf.d/secheaders.conf;
+    include /etc/nginx/conf.d/giteacsp.conf;
 
     location / {
         proxy_set_header X-Real-IP  $remote_addr;
