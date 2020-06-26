@@ -11,25 +11,19 @@ server {
     listen {{ port_default }};
     listen [::]:{{ port_default }};
     server_name {{ server_name_default }};
-    location / {
-        return 301 https://{{ server_name_default }}$request_uri;
-    }
+    return 301 https://{{ server_name_default }}$request_uri;
 }
 
 server {
     listen {{ port_default }};
     listen [::]:{{ port_default }};
     server_name www.{{ server_name_default }};
-    location / {
-        return 301 https://www.{{ server_name_default }}$request_uri;
-    }
+    return 301 https://www.{{ server_name_default }}$request_uri;
 }
 
 server {
     listen {{ port_gitea }};
     listen [::]:{{ port_gitea }};
     server_name git.{{ server_name_default }};
-    location / {
-        return 301 https://git.{{ server_name_default }}$request_uri;
-    }
+    return 301 https://git.{{ server_name_default }}$request_uri;
 }
