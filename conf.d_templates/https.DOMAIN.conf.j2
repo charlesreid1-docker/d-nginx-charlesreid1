@@ -1,7 +1,7 @@
 ####################
 #
 # {{ server_name_default }}
-# https/{{ port_ssl_default }}
+# https/443
 # 
 # {{ server_name_default }} and www.{{ server_name_default }}
 # should handle the following cases:
@@ -13,8 +13,8 @@
 
 # default 
 server {
-    listen {{ port_ssl_default }} ssl;
-    listen [::]:{{ port_ssl_default }} ssl;
+    listen 443 ssl;
+    listen [::]:443 ssl;
     server_name {{ server_name_default }} default_server;
 
     ssl_certificate /etc/letsencrypt/live/{{ server_name_default }}/fullchain.pem;
@@ -53,8 +53,8 @@ server {
 
 # www
 server {
-    listen {{ port_ssl_default }} ssl;
-    listen [::]:{{ port_ssl_default }} ssl;
+    listen 443 ssl;
+    listen [::]:443 ssl;
     server_name www.{{ server_name_default }};
 
     ssl_certificate /etc/letsencrypt/live/www.{{ server_name_default }}/fullchain.pem;
@@ -92,8 +92,8 @@ server {
 
 # gitea 
 server {
-    listen {{ port_ssl_gitea}} ssl;
-    listen [::]:{{ port_ssl_gitea }} ssl;
+    listen 443 ssl;
+    listen [::]:443 ssl;
     server_name git.{{ server_name_default }};
 
     ssl_certificate /etc/letsencrypt/live/git.{{ server_name_default }}/fullchain.pem;
