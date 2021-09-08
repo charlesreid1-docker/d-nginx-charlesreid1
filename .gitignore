@@ -1,5 +1,8 @@
+*.j2
 site/
 letsencrypt/
 letsencrypt_certs/
 nginx.conf.default
 conf.d/
+conf.d_templates/http.DOMAIN.conf
+conf.d_templates/https.DOMAIN.conf
